@@ -24,7 +24,7 @@ public class ParcelService {
         for (Locker locker : lockers) {
             if (locker.isFree() && locker.getSize() >= parcel.getSize()) {
                 locker.setParcel(parcel);
-                parcel.status = "STORED";
+                parcel.markStored();
                 parcels.add(parcel);
                 System.out.println("SMS to " + parcel.getStudentId() + ": parcel "
                         + parcel.getCode() + " is in locker " + locker.getNumber());
@@ -40,7 +40,7 @@ public class ParcelService {
             Parcel parcel = locker.getParcel();
             if (parcel != null && parcel.getCode().equals(code)) {
                 locker.setParcel(null);
-                parcel.status = "PICKED_UP";
+                parcel.markPickedUp();
                 saveToFile();
                 return fee(parcel, days);
             }
@@ -63,8 +63,8 @@ public class ParcelService {
     public void printParcels(boolean forStaff) {
         for (Parcel parcel : parcels) {
             if (forStaff) {
-                System.out.println(parcel.getCode() + " " + parcel.getStudentId() + " " + parcel.status);
-            } else if (parcel.status.equals("STORED")) {
+                System.out.println(parcel.getCode() + " " + parcel.getStudentId() + " " + parcel.getStatus());
+            } else if (parcel.isStored()) {
                 System.out.println(parcel.getCode() + " is waiting");
             }
         }
@@ -73,7 +73,7 @@ public class ParcelService {
     private void saveToFile() {
         try (FileWriter writer = new FileWriter("parcels.csv")) {
             for (Parcel parcel : parcels) {
-                writer.write(parcel.getCode() + "," + parcel.status + "\n");
+                writer.write(parcel.getCode() + "," + parcel.getStatus() + "\n");
             }
         } catch (IOException e) {
             LOGGER.log(System.Logger.Level.ERROR, "Could not save parcels.csv", e);
