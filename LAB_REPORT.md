@@ -159,8 +159,8 @@ P1,PICKED_UP
 | Prompt (B or C as given, or your changed prompt in full) | B as given, with the supplied BikeShare specification | C as given, with the supplied BikeShare specification |
 | Builds with mvn package (yes or no) | yes (JDK 21, Java release 17) | yes (JDK 21, Java release 17) |
 | Number of classes, interfaces, enums and records | 1 class; 0 interfaces; 0 enums; 0 records | 4 classes; 1 interface; 2 enums; 1 record |
-| SonarQube issues, total | 18 | |
-| SonarQube issues, by rule | java:S106: 10; java:S1141: 1; java:S1192: 2; java:S135: 1; java:S2386: 3; java:S3776: 1 | |
+| SonarQube issues, total | 18 | 9 |
+| SonarQube issues, by rule | java:S106: 10; java:S1141: 1; java:S1192: 2; java:S135: 1; java:S2386: 3; java:S3776: 1 |java:S106: 9 |
 | AI review findings in Check 1 | | |
 | AI review findings in Check 2 | | |
 | Review output file in the reviews folder | | |
@@ -170,6 +170,8 @@ Generation note: Prompts B and C were applied in the ongoing assistance chat, ra
 The good version passed the same rental/return scenarios, plus checks for exactly two initial bikes per station, CSV escaping of member IDs and fee calculations without int overflow. Its CSV columns are bike ID, member ID, minutes, fee and destination; the poor version records bike ID, minutes, fee and destination. No CSV schema was prescribed by the specification. Both versions retain bike inventory in memory and append completed rides to disk.
 
 SonarQube scan note: The new Problems output supplied after opening the BikeShare project on 25 October 2026 contains 18 SonarQube issues and no non-project-file diagnostic. The earlier java:S1172 warning about main(String[] args) is absent from this scan. Counts use this latest output only.
+
+The supplied good-version Problems output contains 9 issues, all java:S106 in Main.java at lines 23, 28, 29, 30, 52, 55, 57, 64 and 69, with no non-project-file diagnostic. No issues from other files appear in that output.
 
 4.1 Did SonarQube report any cohesion or coupling problem in bikeshare-poor? Quote the rule and the message if it did.
 
