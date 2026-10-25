@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public class ParcelService {
+    private static final System.Logger LOGGER = System.getLogger(ParcelService.class.getName());
     private List<Locker> lockers = new ArrayList<>();
     private List<Parcel> parcels = new ArrayList<>();
     private int maxParcels = 100;
@@ -77,6 +78,7 @@ public class ParcelService {
                 writer.write(parcel.getCode() + "," + parcel.status + "\n");
             }
         } catch (IOException e) {
+            LOGGER.log(System.Logger.Level.ERROR, "Could not save parcels.csv", e);
         }
     }
 }
