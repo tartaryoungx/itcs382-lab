@@ -60,11 +60,15 @@ public class ParcelService {
         return (days - 3) * 20.0;
     }
 
-    public void printParcels(boolean forStaff) {
+    public void printStaffParcels() {
         for (Parcel parcel : parcels) {
-            if (forStaff) {
-                System.out.println(parcel.getCode() + " " + parcel.getStudentId() + " " + parcel.getStatus());
-            } else if (parcel.isStored()) {
+            System.out.println(parcel.getCode() + " " + parcel.getStudentId() + " " + parcel.getStatus());
+        }
+    }
+
+    public void printWaitingParcels() {
+        for (Parcel parcel : parcels) {
+            if (parcel.isStored()) {
                 System.out.println(parcel.getCode() + " is waiting");
             }
         }
