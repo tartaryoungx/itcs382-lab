@@ -160,10 +160,14 @@ P1,PICKED_UP
 | Builds with mvn package (yes or no) | yes (JDK 21, Java release 17) | yes (JDK 21, Java release 17) |
 | Number of classes, interfaces, enums and records | 1 class; 0 interfaces; 0 enums; 0 records | 4 classes; 1 interface; 2 enums; 1 record |
 | SonarQube issues, total | 18 | 9 |
-| SonarQube issues, by rule | java:S106: 10; java:S1141: 1; java:S1192: 2; java:S135: 1; java:S2386: 3; java:S3776: 1 |java:S106: 9 |
-| AI review findings in Check 1 | | |
-| AI review findings in Check 2 | | |
-| Review output file in the reviews folder | | |
+| SonarQube issues, by rule | java:S106: 10; java:S1141: 1; java:S1192: 2; java:S135: 1; java:S2386: 3; java:S3776: 1 | java:S106: 9 |
+| AI review findings in Check 1 | 3 | |
+| AI review findings in Check 2 | 4 | |
+| Review output file in the reviews folder | reviews/bikeshare-poor-review.md | |
+
+Poor-version AI review: 25 October 2026; Codex, GPT-6 family as reported by the supplied review, exact model identifier unavailable. According to the supplied provenance, the review used a fresh agent without the earlier conversation history rather than a new UI chat. This is a procedural deviation from the lab's new-chat instruction. The review file preserves all findings and not-found rows; its counts are the original AI counts, not a count of findings accepted after checking.
+
+Review check: Findings 1-3 and 5-7 point to visible code: the long combined method, repeated station names and numeric assumptions, boolean-selected operations, mixed class responsibilities and public mutable arrays. Finding 4 is debatable: arranging CLI steps in sequence alone does not establish procedural cohesion. The review correctly distinguishes dependencies within the single Main class from coupling between application classes. No BikeShare code was changed in response to this review.
 
 Generation note: Prompts B and C were applied in the ongoing assistance chat, rather than separate new chats as requested in the lab procedure. The poor version built successfully and passed command-line checks for both fee rates, cross-station returns, empty stations, invalid input, CSV append across runs and file-write failure handling.
 
