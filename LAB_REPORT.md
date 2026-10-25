@@ -8,13 +8,13 @@ Repository URL: https://github.com/tartaryoungx/itcs382-lab.git
 | --- | --- |
 | JDK | OpenJDK 21.0.13.0.2 (Homebrew); Maven project targets Java 17 |
 | Maven | Apache Maven 3.10.0 |
-| IDE | Visual Studio Code (version to be confirmed) |
+| IDE | Visual Studio Code 1.141.0 |
 | SonarQube for IDE | 6.2.0 |
-| AI tool and exact model | |
+| AI tool and exact model | Codex, GPT-6 family; exact model identifier not exposed in this session. The original ParcelPoint review tool/model was not recorded. |
 
 ## Task 1. SonarQube on the starter code
 
-Commit of the starter, before any Java source change: 9770192
+Commit of the starter, before any Java source change: 36003bd
 
 Table 1. SonarQube issues in the starter code
 
@@ -38,9 +38,9 @@ Table 1. SonarQube issues in the starter code
 
 | Item | Value |
 | --- | --- |
-| Date | Pending confirmation of the review run date |
-| AI tool and exact model | Pending confirmation from the review chat |
-| Commit reviewed | 9770192 |
+| Date | Original run date not recorded; review received on 25 October 2026 |
+| AI tool and exact model | Not recorded in the supplied original review; cannot verify the tool or exact model |
+| Commit reviewed | 36003bd |
 | How the AI read the files (attached the files, opened the folder, or pasted the files) | Attached four Java files, according to the supplied review output |
 | Output file in the reviews folder | reviews/parcelpoint-review.md |
 
@@ -113,15 +113,15 @@ Table 3. What you did with each SonarQube issue in Table 1
 | 2 | Kept | The assigned locker or unavailable-locker message is the CLI response to store. |
 | 3 | Kept | The pickup fee is a required user-facing CLI result. |
 | 4 | Kept | The free-locker count is a user-facing response to the staff command. |
-| 5 | Fixed | e7cb125: removed the unused java.util.Date import; no date API is needed. |
-| 6 | Fixed | e7cb125: removed the unused java.util.Date import. |
-| 7 | Fixed | b366ee9: removed the unused maxParcels field. |
+| 5 | Fixed | ab0ec4f: removed the unused java.util.Date import; no date API is needed. |
+| 6 | Fixed | ab0ec4f: removed the unused java.util.Date import. |
+| 7 | Fixed | 111d284: removed the unused maxParcels field. |
 | 8 | Kept | The console SMS message is the existing notification simulation; retaining it keeps the CLI behavior unchanged. |
-| 9 | Fixed | 9aba929: compare parcel-code text with equals() instead of comparing String references. |
+| 9 | Fixed | f2dc5b5: compare parcel-code text with equals() instead of comparing String references. |
 | 10 | Kept | Staff parcel records are intentional CLI output; the statement now belongs to printStaffParcels(). |
 | 11 | Kept | Waiting-parcel messages are intentional CLI output; the statement now belongs to printWaitingParcels(). |
-| 12 | Fixed | e26da71: use try-with-resources to close and flush FileWriter. |
-| 13 | Fixed | 481c3c2: log IOException with System.Logger so save failures are visible. |
+| 12 | Fixed | 6ee2096: use try-with-resources to close and flush FileWriter. |
+| 13 | Fixed | 4eae130: log IOException with System.Logger so save failures are visible. |
 
 Number of SonarQube issues that remain after your fixes: **7**, all java:S106, confirmed by the post-fix IDE Problems output supplied on 25 October 2026. Locations: Main.java:9, 15, 17, 22 and ParcelService.java:29, 65, 72. These console-output issues were intentionally kept for the reasons in Table 3. The separate Java-extension warning about the unclosed Scanner at Main.java:8 remains, but is not included in the SonarQube count.
 
@@ -129,8 +129,8 @@ The two design problems that you fixed
 
 | Design problem (course term) | What you changed | Commit |
 | --- | --- | --- |
-| Content coupling and exposed state (AI findings 23 and 30) | Made Parcel.status private. ParcelService now uses markStored(), markPickedUp(), getStatus() and isStored(), so it no longer directly reads or writes the field or interprets status strings. | f4daf4d |
-| Control coupling and logical cohesion (AI findings 18 and 22) | Replaced printParcels(boolean) with printWaitingParcels() and printStaffParcels(), and updated Main to call the appropriate operation without passing a control flag. | a2eb7a2 |
+| Content coupling and exposed state (AI findings 23 and 30) | Made Parcel.status private. ParcelService now uses markStored(), markPickedUp(), getStatus() and isStored(), so it no longer directly reads or writes the field or interprets status strings. | 5df8b6d |
+| Control coupling and logical cohesion (AI findings 18 and 22) | Replaced printParcels(boolean) with printWaitingParcels() and printStaffParcels(), and updated Main to call the appropriate operation without passing a control flag. | 3f6de8b |
 
 Validation: Maven package succeeded after each fix using JDK 21 with Java release 17. CLI checks verified pickup, customer and staff listings, and CSV contents. A separate check made parcels.csv a directory in a temporary working folder to force a write failure; the error was logged instead of silently ignored. These were command-line checks, not a committed automated test suite. The checks used temporary working folders so existing parcel data was not overwritten.
 
@@ -155,19 +155,21 @@ P1,PICKED_UP
 | Item | bikeshare-poor | bikeshare-good |
 | --- | --- | --- |
 | Date | 25 October 2026 (generation) | 25 October 2026 (generation) |
-| AI tool and exact model | Codex; exact model label pending confirmation | Codex; exact model label pending confirmation |
+| AI tool and exact model | Codex, GPT-6 family; exact model identifier unavailable | Codex, GPT-6 family; exact model identifier unavailable |
 | Prompt (B or C as given, or your changed prompt in full) | B as given, with the supplied BikeShare specification | C as given, with the supplied BikeShare specification |
 | Builds with mvn package (yes or no) | yes (JDK 21, Java release 17) | yes (JDK 21, Java release 17) |
 | Number of classes, interfaces, enums and records | 1 class; 0 interfaces; 0 enums; 0 records | 4 classes; 1 interface; 2 enums; 1 record |
 | SonarQube issues, total | 18 | 9 |
 | SonarQube issues, by rule | java:S106: 10; java:S1141: 1; java:S1192: 2; java:S135: 1; java:S2386: 3; java:S3776: 1 | java:S106: 9 |
-| AI review findings in Check 1 | 3 | |
-| AI review findings in Check 2 | 4 | |
-| Review output file in the reviews folder | reviews/bikeshare-poor-review.md | |
+| AI review findings in Check 1 | 3 | 0 |
+| AI review findings in Check 2 | 4 | 3 |
+| Review output file in the reviews folder | reviews/bikeshare-poor-review.md | reviews/bikeshare-good-review.md |
 
 Poor-version AI review: 25 October 2026; Codex, GPT-6 family as reported by the supplied review, exact model identifier unavailable. According to the supplied provenance, the review used a fresh agent without the earlier conversation history rather than a new UI chat. This is a procedural deviation from the lab's new-chat instruction. The review file preserves all findings and not-found rows; its counts are the original AI counts, not a count of findings accepted after checking.
 
 Review check: Findings 1-3 and 5-7 point to visible code: the long combined method, repeated station names and numeric assumptions, boolean-selected operations, mixed class responsibilities and public mutable arrays. Finding 4 is debatable: arranging CLI steps in sequence alone does not establish procedural cohesion. The review correctly distinguishes dependencies within the single Main class from coupling between application classes. No BikeShare code was changed in response to this review.
+
+Good-version AI review: 25 October 2026; Codex, GPT-6 family, exact model identifier unavailable. Prompt A was applied to all eight Java files opened from the local folder at commit bae3c03. At my request, this review used the same assistance chat instead of a fresh chat, so it is not an independent review and may be influenced by the generation history. The three reported design findings are Notes, not confirmed functional bugs. I have kept the complete output in the reviews folder and recorded this limitation instead of treating the review as proof of correctness.
 
 Generation note: Prompts B and C were applied in the ongoing assistance chat, rather than separate new chats as requested in the lab procedure. The poor version built successfully and passed command-line checks for both fee rates, cross-station returns, empty stations, invalid input, CSV append across runs and file-write failure handling.
 
@@ -179,9 +181,11 @@ The supplied good-version Problems output contains 9 issues, all java:S106 in Ma
 
 4.1 Did SonarQube report any cohesion or coupling problem in bikeshare-poor? Quote the rule and the message if it did.
 
-No rule in the collected output explicitly identifies a cohesion level or coupling type. Related design concerns are flagged: java:S2386 reports "Make this member "protected"." for the public mutable arrays at Main.java:14-16, and java:S3776 reports "Refactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed." at Main.java:52. These address exposed mutable state and method complexity, but do not directly classify the boolean-based operation as logical cohesion or control coupling.
+No rule in the collected output explicitly identifies a cohesion level or coupling type. Related design concerns are flagged: java:S2386 reports `Make this member "protected".` for the public mutable arrays at Main.java:14-16, and java:S3776 reports "Refactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed." at Main.java:52. These address exposed mutable state and method complexity, but do not directly classify the boolean-based operation as logical cohesion or control coupling.
 
 4.2 Did the AI review tell the two versions apart? Give one finding for bikeshare-poor that does not appear for bikeshare-good.
+
+Yes. The poor review identifies public mutable arrays at Main.java:14-16, which allow callers to change fleet and rental state independently. The good review does not find that issue: BikeService keeps its map private, Bike keeps its state private, and no internal mutable collection is returned. The poor review reports 3 code-quality and 4 design findings, while the good review reports 0 and 3; these counts alone are not a quality score, and the reviews were performed with different conversation context.
 
 4.3 Which version would you rather extend with a new member type, such as a visitor who pays 4 baht per minute, and why?
 
@@ -192,12 +196,25 @@ I would extend bikeshare-good. Adding VISITOR(4) to MemberType supplies the new 
 
 5.1 What does SonarQube check, and what does it not check? Answer with examples from this lab.
 
+In this lab, I used SonarQube to identify concrete issues such as String comparison with ==, an unclosed FileWriter, an empty catch block and unused code. It also reported exposed mutable fields and method complexity in bikeshare-poor, so it can flag some design-related symptoms. However, the collected results did not explain cohesion levels or coupling types, so I used the AI reviews and the source code to examine those separately.
+
 5.2 When should you not trust the AI review? Give an example from this lab.
+
+I should not accept an AI finding just because it uses a course term or sounds confident. For example, the ParcelPoint review claimed connascence of algorithm even though the fee calculation appeared in only one method and no second implementation was identified. I need to check the cited code and the definition, and I should be especially cautious about the good-version review because it was produced in the same chat that generated the code.
 
 5.3 What will you do differently in Project Phase 2 after this lab?
 
+In Phase 2, I will keep a baseline commit and collect both SonarQube results and an AI review before changing the code. I will use those results to choose small fixes, check program behavior and saved data, and record the reason for any warning I keep. I will also record the exact AI model and date at the time of each run, and keep generation and review in separate chats so I do not repeat the documentation and review limitations from this lab.
+
 ## AI usage declaration
+
+I completed this lab with AI collaboration. I collected the SonarQube results in VS Code and supplied them for the report, while AI generated the BikeShare programs, helped apply ParcelPoint fixes, ran command-line checks and drafted report sections. The Java code and report are therefore not entirely handwritten by me; the table records the assistance used, including work beyond the required AI reviews.
 
 | AI tool and exact model | Purpose | Files or parts that it produced or changed | How you checked its output |
 | --- | --- | --- | --- |
-| | | | |
+| Original review tool/model not recorded; output received 25 October 2026 | Review the original ParcelPoint code with Prompt A (Task 2) | reviews/parcelpoint-review.md; findings used in Table 2 | Findings were compared with the starter source and collected SonarQube results, with AI assistance. Table 2 records supported, disputed and overlapping claims rather than accepting the whole review. |
+| Codex, GPT-6 family; exact identifier unavailable; 25 October 2026 | Assist with setup, apply selected ParcelPoint fixes, generate poor/good BikeShare using Prompts B/C, run checks and draft the report | ParcelPoint Main.java, Parcel.java and ParcelService.java; all files in bikeshare-poor and bikeshare-good; LAB_REPORT.md and repository setup | I supplied the IDE's SonarQube results. Codex ran Maven builds and CLI checks for pickup fees, CSV output, BikeShare rentals/returns, invalid input and save failures; the report distinguishes these AI-run checks from my IDE checks. |
+| Codex, GPT-6 family as reported in the supplied review; exact identifier unavailable; 25 October 2026 | Review bikeshare-poor with Prompt A using a fresh agent without prior conversation history | reviews/bikeshare-poor-review.md; Task 4 review counts | I supplied the review output. Its locations were checked against Main.java with AI assistance; the report notes that the procedural-cohesion claim is debatable and retains the original counts. |
+| Codex, GPT-6 family; exact identifier unavailable; 25 October 2026 | Review bikeshare-good with Prompt A in the same assistance chat and help compare the versions | reviews/bikeshare-good-review.md; Task 4 comparison and Task 5 draft | The cited locations were inspected in all eight files and compared with the actual SonarQube results. I have disclosed that this was a same-chat review of AI-generated code and is not independent verification. |
+
+The exact model labels were not available in the assistance session, and the original ParcelPoint review metadata was not recorded. These are reporting limitations against the lab's exact-model requirement; no model identifier or original run date has been invented. All assistance in this working session took place on 25 October 2026.
