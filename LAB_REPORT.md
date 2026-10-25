@@ -154,22 +154,33 @@ P1,PICKED_UP
 
 | Item | bikeshare-poor | bikeshare-good |
 | --- | --- | --- |
-| Date | | |
-| AI tool and exact model | | |
-| Prompt (B or C as given, or your changed prompt in full) | | |
-| Builds with mvn package (yes or no) | | |
-| Number of classes, interfaces, enums and records | | |
-| SonarQube issues, total | | |
-| SonarQube issues, by rule | | |
+| Date | 25 October 2026 (generation) | 25 October 2026 (generation) |
+| AI tool and exact model | Codex; exact model label pending confirmation | Codex; exact model label pending confirmation |
+| Prompt (B or C as given, or your changed prompt in full) | B as given, with the supplied BikeShare specification | C as given, with the supplied BikeShare specification |
+| Builds with mvn package (yes or no) | yes (JDK 21, Java release 17) | yes (JDK 21, Java release 17) |
+| Number of classes, interfaces, enums and records | 1 class; 0 interfaces; 0 enums; 0 records | 4 classes; 1 interface; 2 enums; 1 record |
+| SonarQube issues, total | 18 | |
+| SonarQube issues, by rule | java:S106: 10; java:S1141: 1; java:S1192: 2; java:S135: 1; java:S2386: 3; java:S3776: 1 | |
 | AI review findings in Check 1 | | |
 | AI review findings in Check 2 | | |
 | Review output file in the reviews folder | | |
 
+Generation note: Prompts B and C were applied in the ongoing assistance chat, rather than separate new chats as requested in the lab procedure. The poor version built successfully and passed command-line checks for both fee rates, cross-station returns, empty stations, invalid input, CSV append across runs and file-write failure handling.
+
+The good version passed the same rental/return scenarios, plus checks for exactly two initial bikes per station, CSV escaping of member IDs and fee calculations without int overflow. Its CSV columns are bike ID, member ID, minutes, fee and destination; the poor version records bike ID, minutes, fee and destination. No CSV schema was prescribed by the specification. Both versions retain bike inventory in memory and append completed rides to disk.
+
+SonarQube scan note: The new Problems output supplied after opening the BikeShare project on 25 October 2026 contains 18 SonarQube issues and no non-project-file diagnostic. The earlier java:S1172 warning about main(String[] args) is absent from this scan. Counts use this latest output only.
+
 4.1 Did SonarQube report any cohesion or coupling problem in bikeshare-poor? Quote the rule and the message if it did.
+
+No rule in the collected output explicitly identifies a cohesion level or coupling type. Related design concerns are flagged: java:S2386 reports "Make this member "protected"." for the public mutable arrays at Main.java:14-16, and java:S3776 reports "Refactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed." at Main.java:52. These address exposed mutable state and method complexity, but do not directly classify the boolean-based operation as logical cohesion or control coupling.
 
 4.2 Did the AI review tell the two versions apart? Give one finding for bikeshare-poor that does not appear for bikeshare-good.
 
 4.3 Which version would you rather extend with a new member type, such as a visitor who pays 4 baht per minute, and why?
+
+I would extend bikeshare-good. Adding VISITOR(4) to MemberType supplies the new rate, and the CLI already parses enum values, so only its help text also needs updating. BikeService and CsvRideStore would not need changes. In bikeshare-poor, the parser and the int-based fee conditional both need changes; otherwise a new type would fall through to the staff rate.
+
 
 ## Task 5. Reflection
 
