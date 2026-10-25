@@ -123,7 +123,7 @@ Table 3. What you did with each SonarQube issue in Table 1
 | 12 | Fixed | e26da71: use try-with-resources to close and flush FileWriter. |
 | 13 | Fixed | 481c3c2: log IOException with System.Logger so save failures are visible. |
 
-Number of SonarQube issues that remain after your fixes: **Pending a fresh SonarQube for IDE scan.** Seven original java:S106 occurrences were intentionally kept; this is not a measured post-fix issue count.
+Number of SonarQube issues that remain after your fixes: **7**, all java:S106, confirmed by the post-fix IDE Problems output supplied on 25 October 2026. Locations: Main.java:9, 15, 17, 22 and ParcelService.java:29, 65, 72. These console-output issues were intentionally kept for the reasons in Table 3. The separate Java-extension warning about the unclosed Scanner at Main.java:8 remains, but is not included in the SonarQube count.
 
 The two design problems that you fixed
 
